@@ -1,0 +1,7 @@
+bin/
+build/
+include/
+
+*.o
+*.dylib
+.DS_Store
