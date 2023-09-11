@@ -39,6 +39,10 @@ Hot keys:
 
 To install plugins, run `make open` to open the plugins folder in Finder and then put your JavaScript files into it. There are some limitations compared to **Pengu Loader**, please read the next section.
 
+A screenshot with [Floyare's Purple theme](https://github.com/floyare/league-purple-theme):
+
+![image](https://github.com/PenguLoader/pengu-mac/assets/38210249/9b146dd4-00ff-4ca5-a034-dd511bb66907)
+
 ### Limitations
 
 - No plugin module system.
