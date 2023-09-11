@@ -65,4 +65,5 @@ A screenshot with [Floyare's Purple theme](https://github.com/floyare/league-pur
 
 If you prefer to use Windows or Linux, it should be the best choice. You will need to enable remote access and SSH server in system preferences, then connect your VSCode via SSH.
 
+If you have no Mac, try GitHub actions and follow this guide: https://www.youtube.com/watch?v=MZYly2gmmHs 😎.
 With headless Mac, you should use NoMachine, a VNC client or Parsec for the best experience.
