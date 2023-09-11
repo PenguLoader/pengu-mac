@@ -37,11 +37,13 @@ Hot keys:
 - <kbd>Cmd + Alt + I</kbd> or <kbd>F12</kbd> : open Chrome DevTools
 - <kbd>Cmd + Alt + R</kbd> : reload the client
 
-To install plugins, run `make open` to open the plugins folder in Finder and then put your JavaScript files into it. There are some limitations compared to **Pengu Loader**, please read the next section.
-
 A screenshot with [Floyare's Purple theme](https://github.com/floyare/league-purple-theme):
 
 ![image](https://github.com/PenguLoader/pengu-mac/assets/38210249/9b146dd4-00ff-4ca5-a034-dd511bb66907)
+
+To install plugins, run `make open` to open the plugins folder in Finder and then put your JavaScript files into it. There are some limitations compared to **Pengu Loader**, please read the next section.
+
+To uninstall the Pengu, just close your Riot Client and reopen it then press update your LoL. 
 
 ### Limitations
 
@@ -50,6 +52,16 @@ A screenshot with [Floyare's Purple theme](https://github.com/floyare/league-pur
 - No remote DevTools
 - You can't paste your code into the DevTools' console.
 - No loader UI, you need to install it after Riot Client login and before launching LoL.
+
+## How it works?
+
+On macOS, there is nothing likes IFEO on Windows, but **dylib inserting** and **dylib proxying** work as well as injection method.
+Unfortunately, they should not work because Riot will validate files every you launch game.
+
+The method is used in this repo, is replacing `libvk_swiftshader.dylib` (a dependency of libcef, via `make install`) after you sign in Riot Client.
+In the future, the loader UI should observe RiotClient websocket to replace this dylib automatically.
+
+// todo
 
 ## Developing
 
