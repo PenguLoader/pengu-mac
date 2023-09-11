@@ -18,10 +18,16 @@ Make sure you have cloned the repo:
 git clone https://github.com/PenguLoader/pengu-mac.git
 ```
 
-Then nagivate to the repo folder and build it:
+Then nagivate to the repo folder and clone dependencies:
 
 ```
 cd pengu-mac
+git clone https://github.com/nomi-san/cef-include -b 91.1.22-mac include
+```
+
+Build it:
+
+```
 make
 ```
 
