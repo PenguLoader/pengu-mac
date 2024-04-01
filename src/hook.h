@@ -1,7 +1,4 @@
-#include <stdint.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <mach/mach_init.h>
 #include <mach/mach_vm.h>
 #include <sys/mman.h>

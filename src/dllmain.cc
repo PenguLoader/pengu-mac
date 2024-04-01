@@ -16,6 +16,21 @@ static uintptr_t get_dylib_base_address(const char* dylib_name)
     return 0;
 }
 
+size_t size_of_image(struct mach_header_64 *header)
+{
+    size_t sz = sizeof(*header); // Size of the header
+    sz += header->sizeofcmds;    // Size of the load commands
+
+    struct load_command *lc = (struct load_command *) (header + 1);
+    for (uint32_t i = 0; i < header->ncmds; i++) {
+        if (lc->cmd == LC_SEGMENT) {
+            sz += ((struct segment_command_64 *) lc)->vmsize; // Size of segments
+        }
+        lc = (struct load_command *) ((char *) lc + lc->cmdsize);
+    }
+    return sz;
+}
+
 static uintptr_t find_pattern_in_dylib(uintptr_t base_address, size_t lib_size, const uint8_t* pattern, size_t pattern_size)
 {
     for (uintptr_t offset = 0; offset < lib_size - pattern_size + 1; offset++) {
