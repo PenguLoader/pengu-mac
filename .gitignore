@@ -2,6 +2,8 @@ bin/
 build/
 include/
 
+node_modules/
+
 *.o
 *.dylib
 .DS_Store

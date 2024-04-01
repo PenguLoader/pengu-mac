@@ -1,7 +1,7 @@
 # Directories
 SRC_DIR := src
-BUILD_DIR := build
-LIB_DIR := bin
+BIN_DIR := bin
+OBJ_DIR := bin/obj
 
 LOL_ROOT_DIR := "/Applications/League of Legends.app/Contents/LoL"
 INSTALL_DIR := $(LOL_ROOT_DIR)/"League of Legends.app/Contents/Frameworks/Chromium Embedded Framework.framework/Libraries"
@@ -22,25 +22,29 @@ OBJCXX_SRCS := $(wildcard $(SRC_DIR)/**/*.mm)
 INC_HEADERS := $(wildcard $(SRC_DIR)/*.h)
 
 # Object files
-CPP_OBJS := $(patsubst $(SRC_DIR)/%.cc,$(BUILD_DIR)/%.o,$(CPP_SRCS))
-OBJCXX_OBJS := $(patsubst $(SRC_DIR)/%.mm,$(BUILD_DIR)/%.o,$(OBJCXX_SRCS))
+CPP_OBJS := $(patsubst $(SRC_DIR)/%.cc,$(OBJ_DIR)/%.o,$(CPP_SRCS))
+OBJCXX_OBJS := $(patsubst $(SRC_DIR)/%.mm,$(OBJ_DIR)/%.o,$(OBJCXX_SRCS))
 
 # Output dylib name
 LIB_NAME := libvk_swiftshader.dylib
 
 # Final target
-LIB_PATH := $(LIB_DIR)/$(LIB_NAME)
+LIB_PATH := $(BIN_DIR)/$(LIB_NAME)
+
+# Backup lib
+LIB_BACKUP_DIR := $(BIN_DIR)/backup
+LIB_BACKUP_PATH := $(LIB_BACKUP_DIR)/$(LIB_NAME)
 
 # Default target
 all: $(LIB_PATH)
 
 # Rule to compile C++ source files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc ${INC_HEADERS}
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc ${INC_HEADERS}
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 # Rule to compile Objective-C++ source files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.mm
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.mm
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -x objective-c++ -c -o $@ $<
 
@@ -53,13 +57,16 @@ $(LIB_PATH): $(CPP_OBJS) $(OBJCXX_OBJS)
 # Target to install the dylib
 install: $(LIB_PATH)
 	@mkdir -p $(INSTALL_DIR)
+	@mkdir -p $(LIB_BACKUP_DIR)
+	cp $(INSTALL_DIR)/$(LIB_NAME) $(LIB_BACKUP_DIR)
 	cp $(LIB_PATH) $(INSTALL_DIR)
 
 restore:
-	cp $(LIB_NAME) $(INSTALL_DIR)
+	cp $(LIB_BACKUP_PATH) $(INSTALL_DIR)
 
 clean:
-	rm -rf $(BUILD_DIR) $(LIB_DIR)
+	rm -rf $(OBJ_DIR)
+	rm -f $(LIB_PATH)
 
 # Open plugins folder
 open:
