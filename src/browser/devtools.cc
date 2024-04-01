@@ -39,6 +39,27 @@ struct DevToolsKeyboardHandler : CefRefCount<cef_keyboard_handler_t>
                 host = browser->get_host(browser);
                 host->set_zoom_level(host, 0);
             }
+            else if (event->windows_key_code == 'C' && event->focus_on_editable_field)
+            {
+                auto frame = browser->get_main_frame(browser);
+                frame->copy(frame);
+                frame->base.release(&frame->base);
+                return true;
+            }
+            else if (event->windows_key_code == 'V' && event->focus_on_editable_field)
+            {
+                auto frame = browser->get_main_frame(browser);
+                frame->paste(frame);
+                frame->base.release(&frame->base);
+                return true;
+            }
+            else if (event->windows_key_code == 'X' && event->focus_on_editable_field)
+            {
+                auto frame = browser->get_main_frame(browser);
+                frame->cut(frame);
+                frame->base.release(&frame->base);
+                return true;
+            }
 
             if (host != nullptr)
             {
