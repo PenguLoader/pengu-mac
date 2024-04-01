@@ -1,26 +1,31 @@
 {
-    "configurations": [
-        {
-            "name": "Mac",
-            "includePath": [
-                "${workspaceFolder}",
-                "${workspaceFolder}/src"
-            ],
-            "defines": ["__x86_64__", "_DEBUG"],
-            "macFrameworkPath": [
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
-            ],
-            "compilerPath": "/usr/bin/clang",
-            "compilerArgs": ["-arch x86_64"],
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "macos-clang-x64",
-            "configurationProvider": "ms-vscode.makefile-tools",
-            "browse": {
-                "path": ["${workspaceFolder}/include"],
-                "limitSymbolsToIncludedHeaders": true
-            }
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "Mac",
+      "includePath": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/src"
+      ],
+      "defines": [
+        "__x86_64__",
+        "_DEBUG"
+      ],
+      "macFrameworkPath": [
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+      ],
+      "compilerPath": "/usr/bin/clang",
+      /* "compilerArgs": ["-arch x86_64"], */
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "macos-clang-x64",
+      "configurationProvider": "ms-vscode.makefile-tools",
+      "browse": {
+        "path": [
+          "${workspaceFolder}/include"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      }
+    }
+  ],
+  "version": 4
 }
