@@ -5,12 +5,23 @@
 static str loader_dir()
 {
     Dl_info info;
-    if (dladdr((void *)&loader_dir, &info)) {
-        auto dir = strdup(info.dli_fname);
-        str ret(dirname(dir));
-        free(dir);
+    extern void *__ref;
+
+    // root dir relative to the old dylib
+    if (dladdr(__ref, &info)) {
+        auto buf = strdup(info.dli_fname);
+        auto dir = dirname(buf);
+
+        int len = strlen(dir);
+        if (strstr(dir, "/backup") == (dir + strlen(dir) - 7))
+            dir = dirname(dir);
+
+        str ret(dir);
+        free(buf);
+
         return ret;
     }
+
     return "";
 }
 
