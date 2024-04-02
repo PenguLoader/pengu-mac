@@ -5,10 +5,17 @@
 
 ### Prerequisites
 
-- MacOS 13+ (`Intel x86-64` / `Apple Silicon arm64`)
-- Xcode + Clang compiler (`xcode-select --install`)
-- GNU make
+- MacOS 13+ (`x86-64`/`arm64`)
 - League of Legends installed
+
+### Installing build tools
+
+Get Clang compiler & GNU make:
+
+```
+xcode-select --install
+brew install make
+```
 
 ### Building
 
@@ -40,8 +47,8 @@ By default, the expected LoL path should be `/Applications/League of Legends.app
 3. Launch **League of Legends**
 
 Hot keys:
-- <kbd>Cmd + Alt + I</kbd> or <kbd>F12</kbd> : open Chrome DevTools
-- <kbd>Cmd + Alt + R</kbd> : reload the client
+- <kbd>Cmd + Alt + I</kbd> or <kbd>F12</kbd> -> open DevTools
+- <kbd>Cmd + Alt + R</kbd> -> reload the Client
 
 A screenshot with [Floyare's Purple theme](https://github.com/floyare/league-purple-theme):
 
@@ -62,12 +69,9 @@ To uninstall the Pengu, just close your Riot Client and reopen it then press upd
 ## How it works?
 
 On macOS, there is nothing likes IFEO on Windows, but **dylib inserting** and **dylib proxying** work as well as injection method.
-Unfortunately, they should not work because Riot will validate files every you launch game.
+Unfortunately, they should not work because Riot will re-validate files every you launch game. The method is used in this repo, is replacing `libEGL.dylib` (via `make install`) after you sign in Riot Client.
 
-The method is used in this repo, is replacing `libvk_swiftshader.dylib` (a dependency of libcef, via `make install`) after you sign in Riot Client.
-In the future, the loader UI should observe RiotClient websocket to replace this dylib automatically.
-
-// todo
+`libEGL.dylib` is a runtime library from ANGLE project, a part of Chromium project aims to support hardware accelerated GLES. It is also a dependency of Chromium Embedded Framework (libcef), then we replace it and do proxying back to the original dylib is placed in Pengu root directory. By using `install_name_tool`, we can replace dependency path of libcef and original dylib, and then use `dladdr()` to obtain related paths in Pengu.
 
 ## Developing
 
@@ -83,5 +87,5 @@ In the future, the loader UI should observe RiotClient websocket to replace this
 
 If you prefer to use Windows or Linux, it should be the best choice. You will need to enable remote access and SSH server in system preferences, then connect your VSCode via SSH.
 
-If you have no Mac, try GitHub actions and follow this guide: https://www.youtube.com/watch?v=MZYly2gmmHs 😎.
+If you have no Mac, try GitHub actions and follow [this guide](https://www.youtube.com/watch?v=MZYly2gmmHs).
 With headless Mac, you should use NoMachine, a VNC client or Parsec for the best experience.
