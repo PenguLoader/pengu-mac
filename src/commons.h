@@ -106,6 +106,7 @@ static cef_string_t operator ""_s(const char16_t *s, size_t l)
 
 namespace utils
 {
+    str loader_dir();
     str plugins_dir();
 
     void shell_open(const str &url);

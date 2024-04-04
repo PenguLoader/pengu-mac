@@ -3,6 +3,11 @@
 #include <mach-o/dyld.h>
 #include "hook.h"
 
+struct Dll
+{
+
+};
+
 static uintptr_t get_dylib_base_address(const char* dylib_name)
 {
     uint32_t image_count = _dyld_image_count();
@@ -64,11 +69,14 @@ void HookRendererProcess();
 __attribute__((constructor)) static void DllMain(int argc, const char **argv)
 {
     std::string prog(argv[0]);
-    prog = prog.substr(prog.find_last_of("/") + 1);
+    prog = prog.substr(prog.rfind('/') + 1);
 
     if (prog == "LeagueClientUx") {
         //fix_cef_background();
         HookBrowserProcess();
+
+        // mark env
+        setenv("PENGU_ACTIVE", "", 1);
     }
     else if (prog == "LeagueClientUx Helper (Renderer)") {
         HookRendererProcess();

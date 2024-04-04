@@ -2,27 +2,29 @@
 #include <libgen.h>
 #include <dlfcn.h>
 
-static str loader_dir()
+extern "C" void eglCreateNativeClientBufferANDROID();
+
+str utils::loader_dir()
 {
-    Dl_info info;
-    extern void *__ref;
+    static str path{};
 
-    // root dir relative to the old dylib
-    if (dladdr(__ref, &info)) {
-        auto buf = strdup(info.dli_fname);
-        auto dir = dirname(buf);
+    if (path.empty()) {
+        Dl_info info;
+        // root dir relative to the old dylib
+        if (dladdr((void *)&eglCreateNativeClientBufferANDROID, &info)) {
+            auto buf = strdup(info.dli_fname);
+            auto dir = dirname(buf);
 
-        int len = strlen(dir);
-        if (strstr(dir, "/backup") == (dir + strlen(dir) - 7))
-            dir = dirname(dir);
+            int len = strlen(dir);
+            if (strstr(dir, "/dylib") == (dir + strlen(dir) - 6))
+                dir = dirname(dir);
 
-        str ret(dir);
-        free(buf);
-
-        return ret;
+            path.assign(dir);
+            free(buf);
+        }
     }
 
-    return "";
+    return path;
 }
 
 str utils::plugins_dir()
